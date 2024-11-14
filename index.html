@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSE Stream Example</title>
+    <style>
+        #output {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Server-Sent Events Streaming Example</h1>
+    <div id="output">Connecting to stream...</div>
+
+    <script>
+        const output = document.getElementById("output");
+        let paragraphText = ""; // To accumulate the streamed data
+
+        // Establish connection to SSE endpoint
+        const eventSource = new EventSource("/stream");
+
+        // Listen for data events from the stream
+        eventSource.onmessage = function(event) {
+            paragraphText += event.data + " "; // Add new data to paragraph text
+            output.textContent = paragraphText; // Update paragraph text in UI
+        };
+
+        // Handle connection errors
+        eventSource.onerror = function() {
+            output.textContent = "Connection lost. Please try refreshing the page.";
+        };
+    </script>
+</body>
+</html>
